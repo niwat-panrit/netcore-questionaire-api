@@ -8,7 +8,7 @@ using Questionaire.common.datastore;
 namespace QuestionaireApi.Controllers
 {
     [ApiController]
-    [Route("[questionnaire]")]
+    [Route("[controller]")]
     public class QuestionnaireController : ControllerBaseCustom
     {
         public QuestionnaireController()
@@ -16,11 +16,12 @@ namespace QuestionaireApi.Controllers
         {
         }
 
-        [HttpPost]
+        [HttpGet("begin/{questionnaireID}")]
         public SessionRsp Begin(int questionnaireID) => 
             new SessionRsp(SessionDataStore.GetNewSession(questionnaireID));
 
-        [HttpGet]
+        [HttpGet("get-question/{sessionID}")]
+        [HttpGet("get-question/{sessionID}/{questionID}")]
         public QuestionRsp GetQuestion(int sessionID, int? questionID)
         {
             var session = SessionDataStore.GetSession(sessionID);
@@ -45,7 +46,7 @@ namespace QuestionaireApi.Controllers
                 return new QuestionRsp(QuestionDataStore.GetQuestion(session, (int)questionID));
         }
 
-        [HttpPost]
+        [HttpPost("submit-answers/{sessionID}/{questionID}")]
         public AnswerRsp SubmitAnswers(int sessionID, int questionID, AnswerReq[] answers)
         {
             try

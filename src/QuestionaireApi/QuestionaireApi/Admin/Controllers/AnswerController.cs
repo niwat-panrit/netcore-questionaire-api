@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using QuestionaireApi.Controllers;
 
 namespace QuestionaireApi.Admin.Controllers
 {
     [ApiController]
-    [Route("[admin/answer]")]
+    [Route("admin/[controller]")]
     public class AnswerController : ControllerBaseCustom
     {
         public AnswerController()
@@ -15,11 +14,12 @@ namespace QuestionaireApi.Admin.Controllers
         {
         }
 
-        [HttpGet]
-        public string GetJson(int questionnaireID) =>
-            JsonConvert.SerializeObject(Get(questionnaireID));
+        [HttpGet("{questionnaireID}")]
+        [HttpGet("{questionnaireID}/json")]
+        public IEnumerable<QuestionnaireAnswerRsp> GetJson(int questionnaireID) =>
+            Get(questionnaireID);
 
-        [HttpGet]
+        [HttpGet("{questionnaireID}/csv")]
         public string GetCsv(int questionnaireID)
         {
             var answers = Get(questionnaireID);
@@ -27,7 +27,7 @@ namespace QuestionaireApi.Admin.Controllers
             throw new NotImplementedException();
         }
 
-        private List<QuestionnaireAnswerRsp> Get(int questionnaireID)
+        private IEnumerable<QuestionnaireAnswerRsp> Get(int questionnaireID)
         {
             throw new NotImplementedException();
         }

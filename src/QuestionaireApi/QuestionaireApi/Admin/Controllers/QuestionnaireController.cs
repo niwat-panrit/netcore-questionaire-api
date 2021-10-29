@@ -6,7 +6,7 @@ using QuestionaireApi.Controllers;
 namespace QuestionaireApi.Admin.Controllers
 {
     [ApiController]
-    [Route("[admin/questionnaire]")]
+    [Route("admin/[controller]")]
     public class QuestionnaireController : ControllerBaseCustom
     {
         public QuestionnaireController()
@@ -20,19 +20,19 @@ namespace QuestionaireApi.Admin.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpPut]
         public QuestionnaireRsp Add(QuestionnaireReq request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpPatch]
         public QuestionnaireRsp Update(QuestionnaireReq request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpDelete("{questionnaireID}")]
         public bool Delete(int questionnaireID)
         {
             throw new NotImplementedException();

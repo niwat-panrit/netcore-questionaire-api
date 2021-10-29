@@ -6,7 +6,7 @@ using QuestionaireApi.Controllers;
 namespace QuestionaireApi.Admin.Controllers
 {
     [ApiController]
-    [Route("[admin/choice]")]
+    [Route("admin/[controller]")]
     public class ChoiceController : ControllerBaseCustom
     {
         public ChoiceController()
@@ -14,31 +14,31 @@ namespace QuestionaireApi.Admin.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpGet("by-question/{questionID}")]
         public IEnumerable<ChoiceRsp> ListByQuestion(int questionID)
         {
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+        [HttpGet("by-group/{groupID}")]
         public IEnumerable<ChoiceRsp> ListByGroup(int groupID)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpPut]
         public ChoiceRsp Add(ChoiceReq request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpPatch]
         public ChoiceRsp Update(ChoiceReq request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpDelete("{choiceID}")]
         public bool Delete(int choiceID)
         {
             throw new NotImplementedException();
