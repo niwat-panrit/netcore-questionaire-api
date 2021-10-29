@@ -40,9 +40,9 @@ namespace QuestionaireApi.Controllers
                 };
 
             if (questionID == null)
-                return new Question(QuestionDataStore.GetFirstQuestion(session));
+                return new QuestionRsp(QuestionDataStore.GetFirstQuestion(session));
             else
-                return new Question(QuestionDataStore.GetQuestion(session, (int)questionID));
+                return new QuestionRsp(QuestionDataStore.GetQuestion(session, (int)questionID));
         }
 
         [HttpPost]
