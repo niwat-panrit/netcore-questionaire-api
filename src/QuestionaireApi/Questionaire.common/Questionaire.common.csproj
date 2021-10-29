@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="NHibernate" />
+    <None Remove="model\" />
+    <None Remove="mapping\" />
+    <None Remove="datastore\" />
+    <None Remove="mapping\Answer.hbm.xml" />
+    <None Remove="mapping\Choice.hbm.xml" />
+    <None Remove="mapping\Question.hbm.xml" />
+    <None Remove="mapping\Questionnaire.hbm.xml" />
+    <None Remove="mapping\Session.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.3.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="model\" />
+    <Folder Include="mapping\" />
+    <Folder Include="datastore\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="mapping\Answer.hbm.xml" />
+    <Content Include="mapping\Choice.hbm.xml" />
+    <Content Include="mapping\Question.hbm.xml" />
+    <Content Include="mapping\Questionnaire.hbm.xml" />
+    <Content Include="mapping\Session.hbm.xml" />
+  </ItemGroup>
+</Project>

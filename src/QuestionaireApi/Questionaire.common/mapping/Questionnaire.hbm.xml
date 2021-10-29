@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Questionaire.common" 
+                   namespace="Questionaire.common.model" >
+  <class name="Questionnaire">
+    <id name="ID">
+      <generator class="assigned"/>
+    </id>
+    <property name="Title"/>
+    <property name="Description"/>
+    <property name="ExpiredAt"/>
+    <property name="CreatedAt"/>
+    <property name="UpdatedAt"/>
+  </class>
+</hibernate-mapping>

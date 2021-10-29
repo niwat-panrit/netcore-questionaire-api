@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="log4net" />
+    <None Remove="NHibernate" />
+    <None Remove="Configs\" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Admin\" />
+    <None Remove="Admin\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="NHibernate" Version="5.3.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Questionaire.common\Questionaire.common.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configs\" />
+    <Folder Include="Admin\" />
+    <Folder Include="Admin\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Configs\log4net.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Configs\log4net.config">
+      <Link>Configs\log4net.config</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Configs\questionnaire.hibernate.cfg.xml">
+      <Link>Configs\questionnaire.hibernate.cfg.xml</Link>
+    </None>
+  </ItemGroup>
+</Project>

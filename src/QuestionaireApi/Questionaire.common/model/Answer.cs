@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace Questionaire.common.model
+{
+    public class Answer
+    {
+        public virtual int ID { get; set; }
+        public virtual int SessionID { get; set; }
+        public virtual int QuestionID { get; set; }
+        public virtual string Value { get; set; }
+        public virtual DateTime CreatedAt { get; set; }
+        public virtual DateTime UpdatedAt { get; set; }
+
+        public Answer()
+        {
+        }
+    }
+}

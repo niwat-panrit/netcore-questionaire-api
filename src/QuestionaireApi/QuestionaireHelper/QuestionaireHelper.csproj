@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="NHibernate" />
+    <None Remove="CommandLineParser" />
+    <None Remove="log4net" />
+    <None Remove="Configs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.3.10" />
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="log4net" Version="2.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Questionaire.common\Questionaire.common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Configs\log4net.config">
+      <Link>Configs\log4net.config</Link>
+    </None>
+    <None Include="..\Configs\questionnaire.hibernate.cfg.xml">
+      <Link>Configs\questionnaire.hibernate.cfg.xml</Link>
+    </None>
+  </ItemGroup>
+</Project>
