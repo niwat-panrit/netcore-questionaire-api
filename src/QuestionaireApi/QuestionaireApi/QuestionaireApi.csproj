@@ -31,12 +31,12 @@
     <Content Remove="Configs\log4net.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Configs\log4net.config">
+    <None Include="..\Configs\log4net.config" CopyToOutputDirectory="PreserveNewest">
       <Link>Configs\log4net.config</Link>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Configs\questionnaire.hibernate.cfg.xml">
+    <None Include="..\Configs\questionnaire.hibernate.cfg.xml" CopyToOutputDirectory="PreserveNewest">
       <Link>Configs\questionnaire.hibernate.cfg.xml</Link>
     </None>
   </ItemGroup>

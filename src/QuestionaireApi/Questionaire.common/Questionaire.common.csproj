@@ -25,11 +25,11 @@
     <Folder Include="datastore\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mapping\Answer.hbm.xml" />
-    <Content Include="mapping\Choice.hbm.xml" />
-    <Content Include="mapping\Question.hbm.xml" />
-    <Content Include="mapping\Questionnaire.hbm.xml" />
-    <Content Include="mapping\Session.hbm.xml" />
-    <Content Include="mapping\SessionQuestion.hbm.xml" />
+    <None Include="mapping\Answer.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\Choice.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\Question.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\Questionnaire.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\Session.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\SessionQuestion.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
