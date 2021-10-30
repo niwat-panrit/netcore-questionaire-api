@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Questionaire.common.datastore;
 
 namespace Questionaire.common.model
@@ -30,27 +31,30 @@ namespace Questionaire.common.model
 
         public IEnumerable<IEnumerable<Answer>> GetAnswers()
         {
-            throw new NotImplementedException();
+            var answers = AnswerDataStore.Instance
+                .GetAnswers(this.ID);
+
+            // TODO:
+            //  1) Use SQL join
+            //  2) Order answers by question's display order
+
+            return answers.GroupBy(a => a.SessionID);
         }
 
-        public Question GetPreviousQuestion(Question question)
-        {
-            throw new NotImplementedException();
-        }
+        public Question GetPreviousQuestion(Question question) =>
+            QuestionnaireDataStore.Instance
+                .GetPreviousQuestion(question);
 
-        public Question GetNextQuestion(Question question)
-        {
-            throw new NotImplementedException();
-        }
+        public Question GetNextQuestion(Question question) =>
+            QuestionnaireDataStore.Instance
+                .GetNextQuestion(question);
 
-        public int GetMinDisplayOrder()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetMinDisplayOrder() =>
+            QuestionnaireDataStore.Instance
+                .GetMinDisplayOrder(this.ID);
 
-        public int GetMaxDisplayOrder()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetMaxDisplayOrder() =>
+            QuestionnaireDataStore.Instance
+                .GetMaxDisplayOrder(this.ID);
     }
 }

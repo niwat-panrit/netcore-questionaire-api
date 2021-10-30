@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using NHibernate.Criterion;
+using NHibernate.Util;
 using Questionaire.common.model;
 
 namespace Questionaire.common.datastore
@@ -36,6 +39,48 @@ namespace Questionaire.common.datastore
                 return dbSession.QueryOver<Questionnaire>()
                     .Where(q => q.ID == questionnaireID)
                     .Take(1).SingleOrDefault();
+        }
+
+        public Question GetPreviousQuestion(Question question)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Question>()
+                    .Where(q => q.DisplayOrder < question.DisplayOrder)
+                    .OrderBy(q => q.DisplayOrder).Desc
+                    .Take(1).SingleOrDefault();
+        }
+
+        public Question GetNextQuestion(Question question)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Question>()
+                    .Where(q => q.DisplayOrder > question.DisplayOrder)
+                    .OrderBy(q => q.DisplayOrder).Asc
+                    .Take(1).SingleOrDefault();
+        }
+
+        public int GetMinDisplayOrder(int questionnaireID)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Question>()
+                    .Select(
+                        Projections
+                           .ProjectionList().Add(
+                                Projections.Min<Question>(q => q.DisplayOrder)))
+                    .Where(q => q.QuestionnaireID == questionnaireID)
+                    .List<int>().First();
+        }
+
+        public int GetMaxDisplayOrder(int questionnaireID)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Question>()
+                    .Select(
+                        Projections
+                           .ProjectionList().Add(
+                                Projections.Max<Question>(q => q.DisplayOrder)))
+                    .Where(q => q.QuestionnaireID == questionnaireID)
+                    .List<int>().First();
         }
 
         public Questionnaire Create(Questionnaire questionnaire)

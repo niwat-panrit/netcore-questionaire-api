@@ -27,6 +27,14 @@ namespace Questionaire.common.datastore
         {
         }
 
+        public IList<Answer> GetAnswers(int questionnaireID)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Answer>()
+                    .Where(a => a.QuestionnaireID == questionnaireID)
+                    .List();
+        }
+
         public bool Submit(Session session, Question question, Answer newAnswer, bool more, List<string> warnings, out bool isException)
         {
             // TODO: Check relation of questionnaire, session and quest ids in answer
