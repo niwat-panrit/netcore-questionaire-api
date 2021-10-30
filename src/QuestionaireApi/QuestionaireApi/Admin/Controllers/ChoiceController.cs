@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Questionaire.common;
+using Questionaire.common.datastore;
+using Questionaire.common.model;
 using QuestionaireApi.Controllers;
 
 namespace QuestionaireApi.Admin.Controllers
@@ -15,33 +17,103 @@ namespace QuestionaireApi.Admin.Controllers
         }
 
         [HttpGet("by-question/{questionID}")]
-        public IEnumerable<ChoiceRsp> ListByQuestion(int questionID)
+        public IEnumerable<Choice> ListByQuestion(int questionID)
         {
-            throw new NotImplementedException();
+            var question = QuestionDataStore.Instance
+                .GetQuestion(questionID);
+
+            if (question == null)
+                return null;
+
+            return ChoiceDataStore.Instance
+                .GetByQuestion(question);
         }
+            
 
         [HttpGet("by-group/{groupID}")]
-        public IEnumerable<ChoiceRsp> ListByGroup(int groupID)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Choice> ListByGroup(int groupID) =>
+            ChoiceDataStore.Instance
+                .GetByGroup(groupID);
 
         [HttpPut]
         public ChoiceRsp Add(ChoiceReq request)
         {
-            throw new NotImplementedException();
+            var errors = new List<KeyValuePair<string, string>>();
+
+            if (!request.Validate(errors))
+                return new ChoiceRsp()
+                {
+                    Success = false,
+                    Ref = errors,
+                };
+
+            var newChoice = ChoiceDataStore.Instance
+                .Create(new Choice()
+                {
+                    QuestionID = request.QuestionID,
+                    GroupID = request.GroupID,
+                    Text = request.Text,
+                });
+
+            return new ChoiceRsp()
+            {
+                Success = newChoice != null,
+                Ref = newChoice,
+            };
         }
 
-        [HttpPatch]
-        public ChoiceRsp Update(ChoiceReq request)
+        [HttpPatch("{choiceID}")]
+        public ChoiceRsp Update(int choiceID, ChoiceReq request)
         {
-            throw new NotImplementedException();
+            var choice = ChoiceDataStore.Instance
+                .GetChoice(choiceID);
+
+            if (choice == null)
+                return new ChoiceRsp()
+                {
+                    Success = false,
+                    Ref = SystemMessage.ChoiceNotFoundInvalid,
+                };
+
+            var errors = new List<KeyValuePair<string, string>>();
+
+            if (!request.Validate(errors))
+                return new ChoiceRsp()
+                {
+                    Success = false,
+                    Ref = errors,
+                };
+
+            choice.QuestionID = request.QuestionID;
+            choice.GroupID = request.GroupID;
+            choice.Text = request.Text;;
+
+            return new ChoiceRsp()
+            {
+                Success = ChoiceDataStore.Instance
+                    .Update(choice),
+                Ref = choice,
+            };
         }
 
         [HttpDelete("{choiceID}")]
-        public bool Delete(int choiceID)
+        public ChoiceRsp Delete(int choiceID)
         {
-            throw new NotImplementedException();
+            var choice = ChoiceDataStore.Instance
+                .GetChoice(choiceID);
+
+            if (choice == null)
+                return new ChoiceRsp()
+                {
+                    Success = false,
+                    Ref = SystemMessage.ChoiceNotFoundInvalid,
+                };
+
+            return new ChoiceRsp()
+            {
+                Success = ChoiceDataStore.Instance
+                    .Delete(choice),
+            };
         }
     }
 }

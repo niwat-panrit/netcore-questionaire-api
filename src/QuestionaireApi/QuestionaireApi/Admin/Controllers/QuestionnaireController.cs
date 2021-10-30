@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Questionaire.common;
+using Questionaire.common.datastore;
+using Questionaire.common.model;
 using QuestionaireApi.Controllers;
 
 namespace QuestionaireApi.Admin.Controllers
@@ -15,27 +17,89 @@ namespace QuestionaireApi.Admin.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<QuestionnaireRsp> List()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<Questionnaire> List() =>
+            QuestionnaireDataStore.Instance
+                .GetAll();
 
         [HttpPut]
         public QuestionnaireRsp Add(QuestionnaireReq request)
         {
-            throw new NotImplementedException();
+            var errors = new List<KeyValuePair<string, string>>();
+
+            if (!request.Validate(errors))
+                return new QuestionnaireRsp()
+                {
+                    Success = false,
+                    Ref = errors,
+                };
+
+            var newQuestionnaire = QuestionnaireDataStore.Instance
+                .Create(new Questionnaire()
+                {
+                    Title = request.Title,
+                    Description = request.Description,
+                    ExpiredAt = request.ExpiredAt,
+                });
+
+            return new QuestionnaireRsp()
+            {
+                Success = newQuestionnaire != null,
+                Ref = newQuestionnaire,
+            };
         }
 
-        [HttpPatch]
-        public QuestionnaireRsp Update(QuestionnaireReq request)
+        [HttpPatch("{questionnaireID}")]
+        public QuestionnaireRsp Update(int questionnaireID, QuestionnaireReq request)
         {
-            throw new NotImplementedException();
+            var qetionnaire = QuestionnaireDataStore.Instance
+                .GetQuestionnaire(questionnaireID);
+
+            if (qetionnaire == null)
+                return new QuestionnaireRsp()
+                {
+                    Success = false,
+                    Ref = SystemMessage.QuestionnaireNotFoundInvalid,
+                };
+
+            var errors = new List<KeyValuePair<string, string>>();
+
+            if (!request.Validate(errors))
+                return new QuestionnaireRsp()
+                {
+                    Success = false,
+                    Ref = errors,
+                };
+
+            qetionnaire.Title = request.Title;
+            qetionnaire.Description = request.Description;
+            qetionnaire.ExpiredAt = request.ExpiredAt;
+
+            return new QuestionnaireRsp()
+            {
+                Success = QuestionnaireDataStore.Instance
+                    .Update(qetionnaire),
+                Ref = qetionnaire,
+            };
         }
 
         [HttpDelete("{questionnaireID}")]
-        public bool Delete(int questionnaireID)
+        public QuestionnaireRsp Delete(int questionnaireID)
         {
-            throw new NotImplementedException();
+            var qetionnaire = QuestionnaireDataStore.Instance
+                .GetQuestionnaire(questionnaireID);
+
+            if (qetionnaire == null)
+                return new QuestionnaireRsp()
+                {
+                    Success = false,
+                    Ref = SystemMessage.QuestionnaireNotFoundInvalid,
+                };
+
+            return new QuestionnaireRsp()
+            {
+                Success = QuestionnaireDataStore.Instance
+                    .Delete(qetionnaire),
+            };
         }
     }
 }

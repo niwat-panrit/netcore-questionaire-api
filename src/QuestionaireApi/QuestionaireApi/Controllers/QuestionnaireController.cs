@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Questionaire.common;
 using Questionaire.common.datastore;
+using Questionaire.common.model;
 
 namespace QuestionaireApi.Controllers
 {
@@ -17,33 +19,54 @@ namespace QuestionaireApi.Controllers
         }
 
         [HttpGet("begin/{questionnaireID}")]
-        public SessionRsp Begin(int questionnaireID) => 
-            new SessionRsp(SessionDataStore.GetNewSession(questionnaireID));
+        public Session Begin(int questionnaireID) =>
+            SessionDataStore.Instance
+                .OpenQuestionnaireSession(questionnaireID);
 
         [HttpGet("get-question/{sessionID}")]
         [HttpGet("get-question/{sessionID}/{questionID}")]
         public QuestionRsp GetQuestion(int sessionID, int? questionID)
         {
-            var session = SessionDataStore.GetSession(sessionID);
+            var session = SessionDataStore.Instance.GetSession(sessionID);
 
             if (session == null)
                 return new QuestionRsp()
                 {
-                    IsSessionTerminated = true,
-                    Text = "Session is expired or invalid.",
+                    Text = SystemMessage.SessionExpiredOrInvalid,
                 };
 
-            if (session.IsCompleted)
-                return new QuestionRsp()
-                {
-                    IsSessionTerminated = true,
-                    Text = "Questionnaire is completed.",
-                };
+            var response = new QuestionRsp()
+            {
+                Session = session,
+            };
+
+            if (response.Session.IsCompleted)
+            {
+                response.Text = SystemMessage.QuestionnaireCompleted;
+
+                return response;
+            }
 
             if (questionID == null)
-                return new QuestionRsp(QuestionDataStore.GetFirstQuestion(session));
+                response.Question = response.Session
+                        .GetFirstQuestion();
             else
-                return new QuestionRsp(QuestionDataStore.GetQuestion(session, (int)questionID));
+                response.Question = QuestionDataStore.Instance
+                    .GetQuestion((int)questionID);
+
+            if (response.Question == null)
+                response.Text = SystemMessage.QuestionExpiredOrInvalid;
+            else if (response.Question.Type.Equals(QuestionType.Choice))
+            {
+                if (response.Question.ChoiceGroupID != null)
+                    response.Choices = ChoiceDataStore.Instance
+                        .GetByGroup((int)response.Question.ChoiceGroupID);
+                else
+                    response.Choices = ChoiceDataStore.Instance
+                        .GetByQuestion(response.Question);
+            }
+
+            return response;
         }
 
         [HttpPost("submit-answers/{sessionID}/{questionID}")]
@@ -51,36 +74,41 @@ namespace QuestionaireApi.Controllers
         {
             try
             {
-                var session = SessionDataStore.GetSession(sessionID);
+                var session = SessionDataStore.Instance
+                    .GetSession(sessionID);
 
                 if (session == null)
                     return new AnswerRsp()
                     {
                         IsAccepted = false,
-                        IsSessionTerminated = true,
-                        Text = "Session is expired or invalid.",
+                        Text = SystemMessage.SessionExpiredOrInvalid,
                     };
 
-                var question = QuestionDataStore.GetQuestion(questionID);
+                var response = new AnswerRsp()
+                {
+                    Session = session,
+                };
+                var question = QuestionDataStore.Instance
+                    .GetQuestion(questionID);
 
                 if (question == null)
-                    return new AnswerRsp()
-                    {
-                        IsAccepted = false,
-                        IsSessionTerminated = true,
-                        Text = "Invalid question id.",
-                    };
+                {
+                    response.IsAccepted = false;
+                    response.Text = SystemMessage.QuestionIDInvalid;
 
-                var errors = new List<string>();
-                answers.All(a => a.Validate(errors));
+                    return response;
+                }
+                
+                var errors = new List<KeyValuePair<string, string>>();
+                var success = answers.All(a => a.Validate(errors));
 
-                if (errors.Count > 0)
-                    return new AnswerRsp()
-                    {
-                        IsAccepted = false,
-                        IsSessionTerminated = false,
-                        Text = JsonConvert.SerializeObject(errors),
-                    };
+                if (!success)
+                {
+                    response.IsAccepted = false;
+                    response.Text = JsonConvert.SerializeObject(errors);
+
+                    return response;
+                }
 
                 var warnings = new List<string>();
                 var isTerminatedByException = false;
@@ -92,23 +120,21 @@ namespace QuestionaireApi.Controllers
                     if (isException)
                         isTerminatedByException = true;
                 }
-                var isLastQuestion = session.IsLastQuestion(question);
+                var nextQuestion = session.GetNextQuestion(question);
+                var isLastQuestion = nextQuestion == null;
                 var isSessionTerminated =
                     isTerminatedByException ||
                     isLastQuestion;
-                int? nextQuestionID = null;
+                
                 if (isSessionTerminated)
                     session.Terminate();
                 else
-                    nextQuestionID = session.GetNextQuestion(question);
+                    response.NextQuestionID = nextQuestion?.ID;
 
-                return new AnswerRsp()
-                {
-                    IsAccepted = true,
-                    IsSessionTerminated = session.IsCompleted,
-                    NextQuestionID = nextQuestionID,
-                    Text = JsonConvert.SerializeObject(warnings),
-                };
+                if (warnings.Count > 0)
+                    response.Text = JsonConvert.SerializeObject(warnings);
+
+                return response;
             }
             catch (Exception exception)
             {
@@ -119,8 +145,7 @@ namespace QuestionaireApi.Controllers
                 return new AnswerRsp()
                 {
                     IsAccepted = false,
-                    IsSessionTerminated = false, // TODO: Option to either retry or end on error
-                    Text = "Something went wrong, please try again.",
+                    Text = SystemMessage.SomethingWrong,
                 };
             }
         }

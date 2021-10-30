@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Questionaire.common.datastore;
 using QuestionaireApi.Controllers;
 
 namespace QuestionaireApi.Admin.Controllers
@@ -15,21 +15,45 @@ namespace QuestionaireApi.Admin.Controllers
         }
 
         [HttpGet("{questionnaireID}")]
-        [HttpGet("{questionnaireID}/json")]
-        public IEnumerable<QuestionnaireAnswerRsp> GetJson(int questionnaireID) =>
-            Get(questionnaireID);
-
         [HttpGet("{questionnaireID}/csv")]
-        public string GetCsv(int questionnaireID)
-        {
-            var answers = Get(questionnaireID);
+        public string GetCsv(int questionnaireID) =>
+            GetAnswer(questionnaireID)?.ToCsv();
 
-            throw new NotImplementedException();
+        [HttpGet("{questionnaireID}/csv-file")]
+        public Stream GetCsvFile(int questionnaireID)
+        {
+            var response = GetAnswer(questionnaireID);
+
+            if (response == null)
+                return null;
+
+            using (var buffer = new FileStream(Path.GetTempFileName(), FileMode.CreateNew))
+            {
+                buffer.Write(System.Text
+                    .Encoding.UTF8.GetBytes(
+                        response.ToCsv()));
+
+                return buffer;
+            }
         }
 
-        private IEnumerable<QuestionnaireAnswerRsp> Get(int questionnaireID)
+        [HttpGet("{questionnaireID}/json")]
+        public QuestionnaireAnswerRsp GetJson(int questionnaireID) =>
+            GetAnswer(questionnaireID);
+
+        private QuestionnaireAnswerRsp GetAnswer(int questionnaireID)
         {
-            throw new NotImplementedException();
+            var questionnaire = QuestionnaireDataStore.Instance
+                .GetQuestionnaire(questionnaireID);
+
+            if (questionnaire == null)
+                return null;
+
+            return new QuestionnaireAnswerRsp()
+            {
+                Questions = questionnaire.GetQuestions(),
+                Answers = questionnaire.GetAnswers(),
+            };
         }
     }
 }
