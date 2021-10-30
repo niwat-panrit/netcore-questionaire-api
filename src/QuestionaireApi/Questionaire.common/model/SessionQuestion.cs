@@ -38,7 +38,8 @@ namespace Questionaire.common.model
 
         public override bool Equals(object obj)
         {
-            if (obj is null or not SessionQuestion)
+            if (obj is null ||
+              !(obj is SessionQuestion))
                 return false;
 
             var another = obj as SessionQuestion;

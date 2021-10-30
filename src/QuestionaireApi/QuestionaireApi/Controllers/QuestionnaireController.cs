@@ -129,10 +129,7 @@ namespace QuestionaireApi.Controllers
                     if (isException)
                         isTerminatedByException = true;
                 }
-                foreach ( in )
-                {
-                    
-                }
+                
                 var nextQuestion = session.GetNextQuestion(question);
                 var isLastQuestion = nextQuestion == null;
                 var isSessionTerminated =
