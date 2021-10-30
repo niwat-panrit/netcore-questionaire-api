@@ -21,24 +21,24 @@ namespace Questionaire.common.model
         {
         }
 
-        public Question GetFirstQuestion()
+        public virtual Question GetFirstQuestion()
         {
             return SessionDataStore.Instance
                 .GetFirstQuestion(this.ID);
         }
 
-        public Question GetNextQuestion(Question question)
+        public virtual Question GetNextQuestion(Question question)
         {
             return SessionDataStore.Instance
                 .GetNextQuestion(this.ID, question.ID);
         }
 
-        public bool IsLastQuestion(Question question)
+        public virtual bool IsLastQuestion(Question question)
         {
             return GetNextQuestion(question) == null;
         }
 
-        public void Terminate()
+        public virtual void Terminate()
         {
             SessionDataStore.Instance
                 .TerminateSession(this.ID);

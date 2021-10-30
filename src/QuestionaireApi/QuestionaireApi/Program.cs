@@ -6,9 +6,13 @@ namespace QuestionaireApi
 {
     public class Program
     {
+        public static string Directory => Path.GetDirectoryName(
+            typeof(Program).Assembly.Location);
+
         public static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure(new FileInfo("Configs/log4net.config"));
+            var log4netConfig = Path.Combine(Program.Directory, "Configs/log4net.config");
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(log4netConfig));
             CreateHostBuilder(args).Build().Run();
         }
 

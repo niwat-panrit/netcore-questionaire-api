@@ -16,19 +16,19 @@ namespace Questionaire.common.model
         {
         }
 
-        public Questionnaire GetQuestionnaire()
+        public virtual Questionnaire GetQuestionnaire()
         {
             return QuestionnaireDataStore.Instance
                 .GetQuestionnaire(this.QuestionnaireID);
         }
 
-        public Session GetSession()
+        public virtual Session GetSession()
         {
             return SessionDataStore.Instance
                 .GetSession(this.SessionID);
         }
 
-        public Question GetQuestion()
+        public virtual Question GetQuestion()
         {
             return QuestionDataStore.Instance
                 .GetQuestion(this.QuestionID);

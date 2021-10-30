@@ -7,6 +7,9 @@ namespace Questionaire.common.datastore
 {
     public class DataStoreBase : IDisposable
     {
+        public static string Directory => Path.GetDirectoryName(
+            typeof(DataStoreBase).Assembly.Location);
+
         protected ISessionFactory sessionFactory;
         protected Configuration dbConfiguration;
 
@@ -15,9 +18,8 @@ namespace Questionaire.common.datastore
 
         public DataStoreBase()
         {
-            var currentDir = Directory.GetCurrentDirectory();
-            this.DBConfigFile = Path.Combine(currentDir, "Configs", "questionnaire.hibernate.cfg.xml");
-            this.DBMappingFileDir = Path.Combine(currentDir, "mapping");
+            this.DBConfigFile = Path.Combine(DataStoreBase.Directory, "Configs", "questionnaire.hibernate.cfg.xml");
+            this.DBMappingFileDir = Path.Combine(DataStoreBase.Directory, "mapping");
 
             this.dbConfiguration = new Configuration();
             this.dbConfiguration.Configure(this.DBConfigFile);

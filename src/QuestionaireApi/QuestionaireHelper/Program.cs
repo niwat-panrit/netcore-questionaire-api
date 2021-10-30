@@ -5,13 +5,17 @@ namespace QuestionaireHelper
 {
     class Program
     {
+        public static string Directory => Path.GetDirectoryName(
+            typeof(Program).Assembly.Location);
+
         static void Main(string[] args)
         {
             try
             {
-                log4net.Config.XmlConfigurator.Configure(new FileInfo("Configs/log4net.config"));
+                var log4netConfig = Path.Combine(Program.Directory, "Configs/log4net.config");
+                log4net.Config.XmlConfigurator.Configure(new FileInfo(log4netConfig));
 
-
+                //log4net.LogManager.GetLogger("App").Debug("Hello WOrld");
             }
             catch (Exception exception)
             {

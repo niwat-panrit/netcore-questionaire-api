@@ -23,13 +23,13 @@ namespace Questionaire.common.model
         {
         }
 
-        public IEnumerable<Question> GetQuestions()
+        public virtual IEnumerable<Question> GetQuestions()
         {
             return QuestionDataStore.Instance
                 .GetQuestions(this.ID);
         }
 
-        public IEnumerable<IEnumerable<Answer>> GetAnswers()
+        public virtual IEnumerable<IEnumerable<Answer>> GetAnswers()
         {
             var answers = AnswerDataStore.Instance
                 .GetAnswers(this.ID);
@@ -41,19 +41,19 @@ namespace Questionaire.common.model
             return answers.GroupBy(a => a.SessionID);
         }
 
-        public Question GetPreviousQuestion(Question question) =>
+        public virtual Question GetPreviousQuestion(Question question) =>
             QuestionnaireDataStore.Instance
                 .GetPreviousQuestion(question);
 
-        public Question GetNextQuestion(Question question) =>
+        public virtual Question GetNextQuestion(Question question) =>
             QuestionnaireDataStore.Instance
                 .GetNextQuestion(question);
 
-        public int GetMinDisplayOrder() =>
+        public virtual int GetMinDisplayOrder() =>
             QuestionnaireDataStore.Instance
                 .GetMinDisplayOrder(this.ID);
 
-        public int GetMaxDisplayOrder() =>
+        public virtual int GetMaxDisplayOrder() =>
             QuestionnaireDataStore.Instance
                 .GetMaxDisplayOrder(this.ID);
     }
