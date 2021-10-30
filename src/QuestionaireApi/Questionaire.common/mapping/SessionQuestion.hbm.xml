@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Questionaire.common" 
+                   namespace="Questionaire.common.model" >
+  <class name="SessionQuestion">
+    <composite-id>
+      <key-property name="SessionID"/>
+      <key-property name="QuestionID"/>
+    </composite-id>
+    <property name="Sequence"/>
+  </class>
+</hibernate-mapping>
