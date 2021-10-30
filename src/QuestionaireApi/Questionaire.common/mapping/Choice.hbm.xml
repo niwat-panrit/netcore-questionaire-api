@@ -6,6 +6,8 @@
     <id name="ID">
       <generator class="assigned"/>
     </id>
+    <property name="QuestionID"/>
+    <property name="GroupID"/>
     <property name="Text"/>
     <property name="CreatedAt"/>
     <property name="UpdatedAt"/>

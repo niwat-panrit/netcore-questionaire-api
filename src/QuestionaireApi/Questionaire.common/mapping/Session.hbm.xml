@@ -8,6 +8,7 @@
     </id>
     <property name="QuestionnaireID"/>
     <property name="IsCompleted"/>
+    <property name="Text"/>
     <property name="CreatedAt"/>
     <property name="UpdatedAt"/>
   </class>

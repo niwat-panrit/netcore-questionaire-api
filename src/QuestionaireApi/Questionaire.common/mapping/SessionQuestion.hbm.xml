@@ -4,6 +4,7 @@
                    namespace="Questionaire.common.model" >
   <class name="SessionQuestion">
     <composite-id>
+      <key-property name="QuestionnaireID"/>
       <key-property name="SessionID"/>
       <key-property name="QuestionID"/>
     </composite-id>

@@ -6,10 +6,12 @@
     <id name="ID">
       <generator class="assigned"/>
     </id>
+    <property name="QuestionnaireID"/>
     <property name="Label"/>
     <property name="Type"/>
     <property name="ChoiceGroupID"/>
     <property name="IsMultiAnswer"/>
+    <property name="DisplayOrder"/>
     <property name="CreatedAt"/>
     <property name="UpdatedAt"/>
   </class>

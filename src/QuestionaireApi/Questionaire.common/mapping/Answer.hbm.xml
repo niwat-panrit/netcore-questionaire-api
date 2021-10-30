@@ -6,6 +6,7 @@
     <id name="ID">
       <generator class="assigned"/>
     </id>
+    <property name="QuestionnaireID"/>
     <property name="SessionID"/>
     <property name="QuestionID"/>
     <property name="Value"/>
