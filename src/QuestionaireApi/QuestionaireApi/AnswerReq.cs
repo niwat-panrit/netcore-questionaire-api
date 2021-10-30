@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Questionaire.common;
-using Questionaire.common.model;
 
 namespace QuestionaireApi
 {
@@ -48,11 +46,6 @@ namespace QuestionaireApi
             }
 
             return success;
-        }
-
-        public bool Save(Session session, Question question, List<string> warnings, out bool isException)
-        {
-            throw new NotImplementedException();
         }
     }
 }

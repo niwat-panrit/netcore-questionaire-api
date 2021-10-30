@@ -112,10 +112,18 @@ namespace QuestionaireApi.Controllers
 
                 var warnings = new List<string>();
                 var isTerminatedByException = false;
-                foreach (var answer in answers)
+                foreach (var request in answers)
                 {
-                    if (!answer.Save(session, question, warnings, out bool isException))
-                        warnings.Add($"Couldn't save: {answer}");
+                    var newAnswer = new Answer()
+                    {
+                        QuestionnaireID = request.QuestionnaireID,
+                        QuestionID = request.QuestionID,
+                        SessionID = request.SessionID,
+                        Value = request.Value,
+                    };
+
+                    if (!AnswerDataStore.Instance.Submit(session, question, newAnswer, warnings, out bool isException))
+                        warnings.Add($"Couldn't submit: {request}");
 
                     if (isException)
                         isTerminatedByException = true;
