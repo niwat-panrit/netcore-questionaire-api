@@ -5,7 +5,7 @@
 	  <property name="connection.driver_class">NHibernate.Driver.MySqlDataDriver</property>
       <property name="dialect">NHibernate.Dialect.MySQL5Dialect</property>
 	
-	  <property name="connection.connection_string">Server=127.0.0.1;Port=3306;Database=questionnare;User ID=app;Password=app;</property>
+	  <property name="connection.connection_string">Server=127.0.0.1;Port=3306;Database=questionnare;User ID=app;Password=secret;</property>
 	
 	  <property name="proxyfactory.factory_class">NHibernate.Bytecode.DefaultProxyFactoryFactory, NHibernate</property>
 	  <property name="connection.release_mode">auto</property>

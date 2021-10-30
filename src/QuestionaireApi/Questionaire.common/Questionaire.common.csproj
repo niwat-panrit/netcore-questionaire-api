@@ -14,6 +14,7 @@
     <None Remove="mapping\Question.hbm.xml" />
     <None Remove="mapping\Questionnaire.hbm.xml" />
     <None Remove="mapping\Session.hbm.xml" />
+    <None Remove="mapping\Session %28copy%29.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.10" />
@@ -29,5 +30,6 @@
     <Content Include="mapping\Question.hbm.xml" />
     <Content Include="mapping\Questionnaire.hbm.xml" />
     <Content Include="mapping\Session.hbm.xml" />
+    <Content Include="mapping\SessionQuestion.hbm.xml" />
   </ItemGroup>
 </Project>
