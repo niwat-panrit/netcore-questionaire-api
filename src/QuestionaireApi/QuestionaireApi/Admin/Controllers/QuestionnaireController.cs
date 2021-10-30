@@ -19,7 +19,7 @@ namespace QuestionaireApi.Admin.Controllers
         [HttpGet]
         public IEnumerable<Questionnaire> List() =>
             QuestionnaireDataStore.Instance
-                .GetAll();
+                .GetAllQuestionnaires();
 
         [HttpPut]
         public QuestionnaireRsp Add(QuestionnaireReq request)

@@ -22,34 +22,27 @@ namespace Questionaire.common.datastore
         {
         }
 
-        public Session GetSession(int sessionID)
-        {
-            using (var dbSession = OpenStatelessSession())
-                return dbSession.QueryOver<Session>()
-                    .Where(s => s.ID == sessionID)
-                    .Take(1)
-                    .SingleOrDefault();
-        }
-
-        public Session OpenQuestionnaireSession(int questionnaireID)
+        public Session OpenQuestionnaireSession(int questionnaireID, string text = null)
         {
             Session qnSession;
 
             using (var dbSession = OpenStatelessSession())
-            using (var transaction = dbSession.BeginTransaction())
             {
+                var creationTime = DateTime.Now;
                 qnSession = new Session()
                 {
                     QuestionnaireID = questionnaireID,
                     IsCompleted = false,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
+                    Text = text,
+                    CreatedAt = creationTime,
+                    UpdatedAt = creationTime,
                 };
 
-                dbSession.Insert(qnSession);
-                transaction.Commit();
+                // TODO: Prepare list of question for this session
+
+                qnSession.ID = (int)dbSession.Insert(qnSession);
             }
-                
+
             return qnSession;
         }
 
@@ -65,7 +58,8 @@ namespace Questionaire.common.datastore
                     return;
 
                 qnSession.IsCompleted = true;
-                dbSession.SaveOrUpdate(qnSession);
+                qnSession.UpdatedAt = DateTime.Now;
+                dbSession.Update(qnSession);
             }
         }
 
@@ -97,6 +91,14 @@ namespace Questionaire.common.datastore
                     .Take(1).SingleOrDefault()
                     ?.GetQuestion();
             }
+        }
+
+        public Session GetSession(int sessionID)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Session>()
+                    .Where(s => s.ID == sessionID)
+                    .Take(1).SingleOrDefault();
         }
     }
 }

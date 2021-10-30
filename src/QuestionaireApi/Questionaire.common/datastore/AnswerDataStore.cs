@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NHibernate;
 using Questionaire.common.model;
 
@@ -37,12 +38,17 @@ namespace Questionaire.common.datastore
                 {
                     dbSession = OpenSession();
                     dbSession.BeginTransaction();
+                    this.dbSession.Add(session.ID, dbSession);
                 }
 
+                newAnswer.CreatedAt =
+                    newAnswer.UpdatedAt =
+                        DateTime.Now;
                 dbSession.Save(newAnswer);
 
                 // TODO: Check exception
                 isException = false;
+
                 return true;
             }
             finally
@@ -50,7 +56,7 @@ namespace Questionaire.common.datastore
                 if (!more)
                 {
                     dbSession?.GetCurrentTransaction().Commit();
-                    dbSession?.Close();
+                    dbSession?.Dispose();
                     this.dbSession.Remove(session.ID);
                 }
             }

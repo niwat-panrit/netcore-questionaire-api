@@ -23,15 +23,6 @@ namespace Questionaire.common.datastore
         {
         }
 
-        public Question GetQuestion(int questionID)
-        {
-            using (var dbSession = OpenStatelessSession())
-                return dbSession.QueryOver<Question>()
-                    .Where(q => q.ID == questionID)
-                    .Take(1)
-                    .SingleOrDefault();
-        }
-
         public IEnumerable<Question> GetQuestions(int questionnaireID)
         {
             using (var dbSession = OpenStatelessSession())
@@ -41,19 +32,46 @@ namespace Questionaire.common.datastore
                     .List();
         }
 
+        public Question GetQuestion(int questionID)
+        {
+            using (var dbSession = OpenStatelessSession())
+                return dbSession.QueryOver<Question>()
+                    .Where(q => q.ID == questionID)
+                    .Take(1).SingleOrDefault();
+        }
+
         public Question Create(Question question)
         {
-            throw new NotImplementedException();
+            using (var dbSession = OpenStatelessSession())
+            {
+                question.CreatedAt =
+                    question.UpdatedAt =
+                        DateTime.Now;
+                question.ID = (int)dbSession.Insert(question);
+
+                return question;
+            }
         }
 
         public bool Update(Question question)
         {
-            throw new NotImplementedException();
+            using (var dbSession = OpenSession())
+            {
+                question.UpdatedAt = DateTime.Now;
+                dbSession.Update(question);
+
+                return true;
+            }
         }
 
         public bool Delete(Question question)
         {
-            throw new NotImplementedException();
+            using (var dbSession = OpenSession())
+            {
+                dbSession.Delete(question);
+
+                return true;
+            }
         }
     }
 }
