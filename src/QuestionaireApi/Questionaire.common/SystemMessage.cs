@@ -18,6 +18,10 @@
 
         public const string ChoiceNotFoundInvalid = "Choice not found or invalid.";
 
+        public const string ValueInvalid = "Value is invalid.";
+
+        public const string ValueRequired = "Value is required.";
+
         public const string SomethingWrong = "Something went wrong, please try again.";
     }
 }
