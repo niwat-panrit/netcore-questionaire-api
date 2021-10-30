@@ -112,8 +112,9 @@ namespace QuestionaireApi.Controllers
 
                 var warnings = new List<string>();
                 var isTerminatedByException = false;
-                foreach (var request in answers)
+                for (int i = 0; i < answers.Length; i++)
                 {
+                    var request = answers[i];
                     var newAnswer = new Answer()
                     {
                         QuestionnaireID = request.QuestionnaireID,
@@ -122,11 +123,15 @@ namespace QuestionaireApi.Controllers
                         Value = request.Value,
                     };
 
-                    if (!AnswerDataStore.Instance.Submit(session, question, newAnswer, warnings, out bool isException))
+                    if (!AnswerDataStore.Instance.Submit(session, question, newAnswer, i < answers.Length - 1, warnings, out bool isException))
                         warnings.Add($"Couldn't submit: {request}");
 
                     if (isException)
                         isTerminatedByException = true;
+                }
+                foreach ( in )
+                {
+                    
                 }
                 var nextQuestion = session.GetNextQuestion(question);
                 var isLastQuestion = nextQuestion == null;

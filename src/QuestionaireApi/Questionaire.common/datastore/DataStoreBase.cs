@@ -7,16 +7,17 @@ namespace Questionaire.common.datastore
 {
     public class DataStoreBase : IDisposable
     {
-        protected readonly ISessionFactory sessionFactory;
-        protected readonly Configuration dbConfiguration;
+        protected ISessionFactory sessionFactory;
+        protected Configuration dbConfiguration;
 
-        public string DBConfigFile { get; set; }
-        public string DBMappingFileDir { get; set; }
+        public string DBConfigFile { get; }
+        public string DBMappingFileDir { get; }
 
-        public DataStoreBase(string dbConfigFile, string dbMappingFileDir)
+        public DataStoreBase()
         {
-            this.DBConfigFile = dbConfigFile;
-            this.DBMappingFileDir = dbMappingFileDir;
+            var currentDir = Directory.GetCurrentDirectory();
+            this.DBConfigFile = Path.Combine(currentDir, "Configs", "questionnaire.hibernate.cfg.xml");
+            this.DBMappingFileDir = Path.Combine(currentDir, "mapping");
 
             this.dbConfiguration = new Configuration();
             this.dbConfiguration.Configure(this.DBConfigFile);
