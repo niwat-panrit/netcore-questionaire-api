@@ -1,10 +1,12 @@
-﻿namespace QuestionaireApi
+﻿using Questionaire.common.model;
+
+namespace QuestionaireApi
 {
     public class AnswerRsp
     {
-        public bool IsAccepted { get; set; }
+        public Session Session { get; set; }
 
-        public bool IsSessionTerminated { get; set; }
+        public bool IsAccepted { get; set; }
 
         public int? NextQuestionID { get; set; }
 

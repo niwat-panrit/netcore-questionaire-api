@@ -1,7 +1,6 @@
-﻿using System;
-namespace QuestionaireApi.Admin
+﻿namespace QuestionaireApi.Admin
 {
-    public class QuestionnaireRsp
+    public class QuestionnaireRsp : ResponseBase
     {
         public QuestionnaireRsp()
         {
