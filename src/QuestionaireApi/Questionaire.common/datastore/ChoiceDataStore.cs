@@ -47,7 +47,6 @@ namespace Questionaire.common.datastore
                     .Take(1).SingleOrDefault();
         }
 
-
         public Choice Create(Choice choice)
         {
             using (var dbSession = OpenStatelessSession())
