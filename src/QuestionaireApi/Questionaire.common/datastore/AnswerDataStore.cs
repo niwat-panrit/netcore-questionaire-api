@@ -53,9 +53,8 @@ namespace Questionaire.common.datastore
                     newAnswer.UpdatedAt =
                         DateTime.Now;
                 dbSession.Save(newAnswer);
-
-                // TODO: Check exception
-                isException = false;
+                isException = AnswerExceptionDataStore.Instance
+                    .IsExceptionalAnswer(question, newAnswer, dbSession);
 
                 return true;
             }
