@@ -5,6 +5,8 @@ namespace Questionaire.common.datastore
 {
     public class ChoiceGroupDataStore : DataStoreBase
     {
+        // TODO: Optimize parameters
+
         private static ChoiceGroupDataStore _Instance;
         public static ChoiceGroupDataStore Instance
         {

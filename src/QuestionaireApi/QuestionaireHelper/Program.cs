@@ -30,6 +30,9 @@ namespace QuestionaireHelper
                    {
                        if (o.LoadCountries)
                            (new CountryListBuilder()).Run(o);
+
+                       // TODO: Add System Infra's initial SQL migrations
+                       // TODO: Add Sample Questoinnaire's initial SQL migrations
                    })
                    .WithNotParsed<Options>(o =>
                    {
