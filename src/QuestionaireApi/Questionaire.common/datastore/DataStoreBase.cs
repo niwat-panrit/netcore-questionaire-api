@@ -2,6 +2,7 @@
 using System.IO;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 
 namespace Questionaire.common.datastore
 {
@@ -26,6 +27,9 @@ namespace Questionaire.common.datastore
             this.dbConfiguration.AddDirectory(new DirectoryInfo(this.DBMappingFileDir));
             this.sessionFactory = dbConfiguration.BuildSessionFactory();
         }
+
+        public SchemaExport GetSchemaExport() =>
+            new SchemaExport(this.dbConfiguration);
 
         public ISession OpenSession() =>
             this.sessionFactory?.OpenSession();

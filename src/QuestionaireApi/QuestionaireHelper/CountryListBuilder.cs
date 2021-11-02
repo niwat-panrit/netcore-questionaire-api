@@ -1,23 +1,21 @@
 ﻿using System;
 using System.IO;
-using log4net;
 using Questionaire.common.datastore;
 using Questionaire.common.model;
 using static QuestionaireHelper.Program;
 
 namespace QuestionaireHelper
 {
-    class CountryListBuilder
+    class CountryListBuilder : ActionHandlerBase
     {
         private const string CountryGroupName = "COUNTRYLIST";
-        private static readonly ILog Logger = LogManager.GetLogger(nameof(CountryListBuilder));
 
         public CountryListBuilder()
         {
             Logger?.Info($"Starting {nameof(CountryListBuilder)}...");
         }
 
-        public void Run(Options o)
+        public override void Run(Options o)
         {
             Logger?.Info($"Building country list...");
 
