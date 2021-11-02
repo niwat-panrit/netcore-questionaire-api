@@ -13,6 +13,9 @@ namespace QuestionaireHelper
         {
             [Option("load-countries", Required = false, HelpText = "Load country list as a choice group.")]
             public bool LoadCountries { get; set; }
+
+            [Option("export-db-schema", Required = false, HelpText = "Export DB schema.")]
+            public bool ExportDBSchema { get; set; }
         }
 
         static void Main(string[] args)
@@ -30,6 +33,9 @@ namespace QuestionaireHelper
                    {
                        if (o.LoadCountries)
                            (new CountryListBuilder()).Run(o);
+
+                       if (o.ExportDBSchema)
+                           (new DBSchemaBuilder()).Run(o);
                    })
                    .WithNotParsed<Options>(o =>
                    {
