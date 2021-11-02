@@ -10,11 +10,13 @@
     <None Remove="mapping\" />
     <None Remove="datastore\" />
     <None Remove="mapping\Answer.hbm.xml" />
+    <None Remove="mapping\AnswerException.hbm.xml" />
     <None Remove="mapping\Choice.hbm.xml" />
+    <None Remove="mapping\ChoiceGroup.hbm.xml" />
     <None Remove="mapping\Question.hbm.xml" />
     <None Remove="mapping\Questionnaire.hbm.xml" />
     <None Remove="mapping\Session.hbm.xml" />
-    <None Remove="mapping\Session %28copy%29.hbm.xml" />
+    <None Remove="mapping\SessionQuestion.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.10" />
@@ -26,18 +28,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mapping\Answer.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\AnswerException.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="mapping\Choice.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="mapping\ChoiceGroup.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="mapping\Question.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="mapping\Questionnaire.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="mapping\Session.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="mapping\SessionQuestion.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="mapping\Choice %28copy%29.hbm.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="mapping\Answer %28copy%29.hbm.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>
