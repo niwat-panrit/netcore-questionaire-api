@@ -48,6 +48,7 @@ namespace QuestionaireHelper
                             CreatedAt = creationTime,
                             UpdatedAt = creationTime,
                         };
+                        dbSession.Save(choice);
                     }
                     
                     transaction.Commit();
