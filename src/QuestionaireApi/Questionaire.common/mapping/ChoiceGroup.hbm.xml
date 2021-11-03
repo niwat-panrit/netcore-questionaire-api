@@ -4,7 +4,7 @@
                    namespace="Questionaire.common.model" >
   <class name="ChoiceGroup">
     <id name="ID">
-      <generator class="assigned"/>
+      <generator class="identity"/>
     </id>
     <property name="Name"/>
     <property name="Description"/>

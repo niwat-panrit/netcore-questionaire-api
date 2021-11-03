@@ -4,7 +4,7 @@
                    namespace="Questionaire.common.model" >
   <class name="AnswerException">
     <id name="ID">
-      <generator class="assigned"/>
+      <generator class="identity"/>
     </id>
     <property name="QuestionnaireID"/>
     <property name="QuestionID"/>
