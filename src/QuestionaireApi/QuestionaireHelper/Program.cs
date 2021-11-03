@@ -14,7 +14,7 @@ namespace QuestionaireHelper
             [Option("load-countries", Required = false, HelpText = "Load country list as a choice group.")]
             public bool LoadCountries { get; set; }
 
-            [Option("export-db-schema", Required = false, HelpText = "Export DB schema.")]
+            [Option("init-db-schema", Required = false, HelpText = "Export DB schema.")]
             public bool ExportDBSchema { get; set; }
         }
 
@@ -31,11 +31,11 @@ namespace QuestionaireHelper
                 Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
                    {
-                       if (o.LoadCountries)
-                           (new CountryListBuilder()).Run(o);
-
                        if (o.ExportDBSchema)
                            (new DBSchemaBuilder()).Run(o);
+
+                       if (o.LoadCountries)
+                           (new CountryListBuilder()).Run(o);
                    })
                    .WithNotParsed<Options>(o =>
                    {
