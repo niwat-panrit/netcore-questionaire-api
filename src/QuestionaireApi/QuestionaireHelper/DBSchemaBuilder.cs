@@ -14,6 +14,17 @@ namespace QuestionaireHelper
 
         public override void Run(Options o)
         {
+            while (true)
+            {
+                Console.WriteLine("Schema builder will clear existing tables then create new, confirm ? (y/n)");
+                var confirm = Console.ReadLine();
+
+                if (confirm.Equals("y", StringComparison.OrdinalIgnoreCase))
+                    break;
+                else if (confirm.Equals("n", StringComparison.OrdinalIgnoreCase))
+                    return;
+            }
+
             Logger?.Info($"Exporting DB schema...");
 
             var schemaExport = QuestionnaireDataStore.Instance
