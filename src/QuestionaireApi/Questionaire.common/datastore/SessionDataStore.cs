@@ -5,6 +5,8 @@ namespace Questionaire.common.datastore
 {
     public class SessionDataStore : DataStoreBase
     {
+        // TODO: Optimize parameters
+
         private static SessionDataStore _Instance;
         public static SessionDataStore Instance
         {

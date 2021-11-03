@@ -4,6 +4,8 @@ namespace Questionaire.common.model
 {
     public class AnswerException
     {
+        // TODO: Add exception note
+
         public virtual int ID { get; set; }
 
         public virtual int QuestionnaireID { get; set; }

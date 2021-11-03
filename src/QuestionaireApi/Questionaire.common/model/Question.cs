@@ -4,6 +4,9 @@ namespace Questionaire.common.model
 {
     public class Question
     {
+        // TODO: Add section
+        // TODO: Add property to indicate mix answers of text and choice
+
         public virtual int ID { get; set; }
 
         public virtual int QuestionnaireID { get; set; }

@@ -6,6 +6,8 @@ namespace Questionaire.common.datastore
 {
     public class QuestionDataStore : DataStoreBase
     {
+        // TODO: Optimize parameters
+
         private static QuestionDataStore _Instance;
         public static QuestionDataStore Instance
         {
