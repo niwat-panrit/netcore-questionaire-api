@@ -12,7 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configs", "Configs", "{249C8D00-A5E1-461C-B48D-117A43E48A09}"
 	ProjectSection(SolutionItems) = preProject
 		Configs\log4net.config = Configs\log4net.config
-		Configs\questionnaire.hibernate.cfg.xml = Configs\questionnaire.hibernate.cfg.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3F829611-40CA-4C66-BD47-8268DC3AD35C}"

@@ -12,6 +12,7 @@
     <None Remove="Admin\" />
     <None Remove="Admin\Controllers\" />
     <None Remove="MySql.Data" />
+    <None Remove="Configs\questionnaire.hibernate.cfg.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.12" />
@@ -38,8 +39,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Configs\questionnaire.hibernate.cfg.xml" CopyToOutputDirectory="PreserveNewest">
-      <Link>Configs\questionnaire.hibernate.cfg.xml</Link>
-    </None>
+    <Compile Include="Configs\questionnaire.hibernate.cfg.xml" />
   </ItemGroup>
 </Project>

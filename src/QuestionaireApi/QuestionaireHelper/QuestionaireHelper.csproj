@@ -12,6 +12,7 @@
     <None Remove="Configs\" />
     <None Remove="MySql.Data" />
     <None Remove="Data\" />
+    <None Remove="Configs\questionnaire.hibernate.cfg.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.10" />
@@ -30,11 +31,11 @@
     <None Include="..\Configs\log4net.config" CopyToOutputDirectory="PreserveNewest">
       <Link>Configs\log4net.config</Link>
     </None>
-    <None Include="..\Configs\questionnaire.hibernate.cfg.xml" CopyToOutputDirectory="PreserveNewest">
-      <Link>Configs\questionnaire.hibernate.cfg.xml</Link>
-    </None>
     <None Include="..\Data\countries.csv" CopyToOutputDirectory="PreserveNewest">
       <Link>Data\countries.csv</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configs\questionnaire.hibernate.cfg.xml" />
   </ItemGroup>
 </Project>
