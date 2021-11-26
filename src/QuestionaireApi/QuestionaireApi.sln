@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3F829611-4
 		Data\countries.csv = Data\countries.csv
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionaire.commom.Tests", "Questionnaire.commom.Tests\Questionaire.commom.Tests.csproj", "{13B75AAE-5E91-4CBB-A946-740024FE7BC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{6ADCA91F-FC08-4FBA-AF8D-AB51A7C67BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ADCA91F-FC08-4FBA-AF8D-AB51A7C67BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ADCA91F-FC08-4FBA-AF8D-AB51A7C67BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13B75AAE-5E91-4CBB-A946-740024FE7BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B75AAE-5E91-4CBB-A946-740024FE7BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B75AAE-5E91-4CBB-A946-740024FE7BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B75AAE-5E91-4CBB-A946-740024FE7BC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
