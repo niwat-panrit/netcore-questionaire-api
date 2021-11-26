@@ -7,23 +7,23 @@ using Questionaire.common.model;
 
 namespace Questionaire.common.datastore
 {
-    public class QuestionnaireDataStore : DataStoreBase
+    public class QuestionaireDataStore : DataStoreBase
     {
         // TODO: Optimize parameters
 
-        private static QuestionnaireDataStore _Instance;
-        public static QuestionnaireDataStore Instance
+        private static QuestionaireDataStore _Instance;
+        public static QuestionaireDataStore Instance
         {
             get
             {
                 if (_Instance == null)
-                    _Instance = new QuestionnaireDataStore();
+                    _Instance = new QuestionaireDataStore();
 
                 return _Instance;
             }
         }
 
-        public QuestionnaireDataStore()
+        public QuestionaireDataStore()
             : base()
         {
         }

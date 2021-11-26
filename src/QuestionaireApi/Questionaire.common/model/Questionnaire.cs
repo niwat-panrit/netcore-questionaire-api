@@ -42,19 +42,19 @@ namespace Questionaire.common.model
         }
 
         public virtual Question GetPreviousQuestion(Question question) =>
-            QuestionnaireDataStore.Instance
+            QuestionaireDataStore.Instance
                 .GetPreviousQuestion(question);
 
         public virtual Question GetNextQuestion(Question question) =>
-            QuestionnaireDataStore.Instance
+            QuestionaireDataStore.Instance
                 .GetNextQuestion(question);
 
         public virtual int GetMinDisplayOrder() =>
-            QuestionnaireDataStore.Instance
+            QuestionaireDataStore.Instance
                 .GetMinDisplayOrder(this.ID);
 
         public virtual int GetMaxDisplayOrder() =>
-            QuestionnaireDataStore.Instance
+            QuestionaireDataStore.Instance
                 .GetMaxDisplayOrder(this.ID);
     }
 }

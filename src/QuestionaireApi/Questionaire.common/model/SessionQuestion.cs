@@ -18,7 +18,7 @@ namespace Questionaire.common.model
 
         public virtual Questionnaire GetQuestionnaire()
         {
-            return QuestionnaireDataStore.Instance
+            return QuestionaireDataStore.Instance
                 .GetQuestionnaire(this.QuestionnaireID);
         }
 
