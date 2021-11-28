@@ -7,20 +7,8 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        private static SessionDataStore _Instance;
-        public static SessionDataStore Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new SessionDataStore();
-
-                return _Instance;
-            }
-        }
-
-        public SessionDataStore()
-            : base()
+        public SessionDataStore(IDataStoreConfig config)
+            : base(config)
         {
         }
 

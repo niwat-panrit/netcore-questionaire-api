@@ -8,20 +8,8 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        private static QuestionDataStore _Instance;
-        public static QuestionDataStore Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new QuestionDataStore();
-
-                return _Instance;
-            }
-        }
-
-        public QuestionDataStore()
-            : base()
+        public QuestionDataStore(IDataStoreConfig config)
+            : base(config)
         {
         }
 

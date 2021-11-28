@@ -2,10 +2,11 @@
 using System.Reflection;
 using NUnit.Framework;
 using Questionaire.common;
+using Questionaire.common.datastore;
 
 namespace Questionnaire.commom.Tests;
 
-public class QuestionaireDataStoreTests
+public class DataStoreBaseTests
 {
     private string dbConfigFile = string.Empty;
     private string dbMappingDir = string.Empty;
@@ -13,6 +14,7 @@ public class QuestionaireDataStoreTests
     [SetUp]
     public void Setup()
     {
+        System.Console.WriteLine("Setting up config file and dir paths...");
         var currentDir = Directory.GetCurrentDirectory();
         this.dbConfigFile = Path.Combine(currentDir, "questionnaire.hibernate.cfg.xml.xml");
         System.Console.WriteLine($"Testing with config file {this.dbConfigFile}");
@@ -23,7 +25,7 @@ public class QuestionaireDataStoreTests
     [Test]
     public void Instantiate_ConfigsCorrect_DataStoreBuilt()
     {
-        var dataStore = new DataStore(
+        var dataStore = new DataStoreBase(
             this.dbConfigFile,
             this.dbMappingDir);
 
@@ -34,7 +36,7 @@ public class QuestionaireDataStoreTests
     public void GetSchemaExport_ConfigsCorrect_SchemaExportCreated()
     {
         // Arrange
-        var dataStore = new DataStore(
+        var dataStore = new DataStoreBase(
             this.dbConfigFile,
             this.dbMappingDir);
 
@@ -48,7 +50,7 @@ public class QuestionaireDataStoreTests
     [Test]
     public void OpenSession_ConfigsCorrect_SessionOpenedAndConnected()
     {
-        var dataStore = new DataStore(
+        var dataStore = new DataStoreBase(
             this.dbConfigFile,
             this.dbMappingDir);
 
@@ -62,7 +64,7 @@ public class QuestionaireDataStoreTests
     [Test]
     public void OpenStatelessSession_ConfigsCorrect_StatelessSessionOpenedAndConnected()
     {
-        var dataStore = new DataStore(
+        var dataStore = new DataStoreBase(
             this.dbConfigFile,
             this.dbMappingDir);
 

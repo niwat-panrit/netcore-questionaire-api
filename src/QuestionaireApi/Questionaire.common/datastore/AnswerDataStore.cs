@@ -9,23 +9,11 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        private static AnswerDataStore _Instance;
-        public static AnswerDataStore Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new AnswerDataStore();
-
-                return _Instance;
-            }
-        }
-
         private Dictionary<int, ISession> dbSession =
             new Dictionary<int, ISession>();
 
-        public AnswerDataStore()
-            : base()
+        public AnswerDataStore(IDataStoreConfig config)
+            : base(config)
         {
         }
 

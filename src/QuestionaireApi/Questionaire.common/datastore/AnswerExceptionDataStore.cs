@@ -7,20 +7,8 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        private static AnswerExceptionDataStore _Instance;
-        public static AnswerExceptionDataStore Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new AnswerExceptionDataStore();
-
-                return _Instance;
-            }
-        }
-
-        public AnswerExceptionDataStore()
-            : base()
+        public AnswerExceptionDataStore(IDataStoreConfig config)
+            : base(config)
         {
         }
 

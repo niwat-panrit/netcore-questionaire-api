@@ -11,20 +11,8 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        private static QuestionaireDataStore _Instance;
-        public static QuestionaireDataStore Instance
-        {
-            get
-            {
-                if (_Instance == null)
-                    _Instance = new QuestionaireDataStore();
-
-                return _Instance;
-            }
-        }
-
-        public QuestionaireDataStore()
-            : base()
+        public QuestionaireDataStore(IDataStoreConfig config)
+            : base(config)
         {
         }
 

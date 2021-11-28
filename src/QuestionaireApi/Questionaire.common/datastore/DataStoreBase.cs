@@ -8,42 +8,34 @@ namespace Questionaire.common.datastore
 {
     public class DataStoreBase : IDisposable
     {
-        public static string Directory => Path.GetDirectoryName(
-            typeof(DataStoreBase).Assembly.Location);
-
-        protected ISessionFactory sessionFactory;
         protected Configuration dbConfiguration;
+        protected ISessionFactory sessionFactory;
 
-        public string DBConfigFile { get; }
-        public string DBMappingFileDir { get; }
-
-        public DataStoreBase()
+        /// <summary>
+        /// Instantiate an object of <see cref="QuestionaireDataStore"/>
+        /// </summary>
+        /// <param name="dbConfigFile">Path to NHibernate config file</param>
+        /// <param name="dbMappingDir">Path to NHibernate mapping directory</param>
+        public DataStoreBase(IDataStoreConfig config)
         {
-            this.DBConfigFile = Path.Combine(DataStoreBase.Directory, "Configs", "questionnaire.hibernate.cfg.xml");
-            this.DBMappingFileDir = Path.Combine(DataStoreBase.Directory, "mapping");
-
             this.dbConfiguration = new Configuration();
-            this.dbConfiguration.Configure(this.DBConfigFile);
-            this.dbConfiguration.AddDirectory(new DirectoryInfo(this.DBMappingFileDir));
-            this.sessionFactory = dbConfiguration.BuildSessionFactory();
+            this.dbConfiguration.Configure(config.DBConfigFile);
+            this.dbConfiguration.AddDirectory(new DirectoryInfo(config.DBMappingDir));
+            this.sessionFactory = this.dbConfiguration.BuildSessionFactory();
         }
 
         public SchemaExport GetSchemaExport() =>
             new SchemaExport(this.dbConfiguration);
 
         public ISession OpenSession() =>
-            this.sessionFactory?.OpenSession();
+            this.sessionFactory.OpenSession();
 
         public IStatelessSession OpenStatelessSession() =>
-            this.sessionFactory?.OpenStatelessSession();
+            this.sessionFactory.OpenStatelessSession();
 
-        public void Close()
+        public void Dispose()
         {
-            this.sessionFactory?.Close();
-            this.sessionFactory?.Dispose();
+            this.sessionFactory.Dispose();
         }
-
-        public void Dispose() =>
-            Close();
     }
 }
