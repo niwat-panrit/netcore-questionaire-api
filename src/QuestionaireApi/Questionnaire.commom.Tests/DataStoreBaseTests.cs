@@ -1,33 +1,38 @@
 ﻿using System.IO;
-using System.Reflection;
 using NUnit.Framework;
-using Questionaire.common;
 using Questionaire.common.datastore;
 
 namespace Questionnaire.commom.Tests;
 
 public class DataStoreBaseTests
 {
-    private string dbConfigFile = string.Empty;
-    private string dbMappingDir = string.Empty;
+    class DBConfig : IDataStoreConfig
+    {
+        public string DBConfigFile { get; init; } = string.Empty;
+
+        public string DBMappingDir { get; init; } = string.Empty;
+    }
+
+    private IDataStoreConfig? dbConfig;
 
     [SetUp]
     public void Setup()
     {
         System.Console.WriteLine("Setting up config file and dir paths...");
         var currentDir = Directory.GetCurrentDirectory();
-        this.dbConfigFile = Path.Combine(currentDir, "questionnaire.hibernate.cfg.xml.xml");
-        System.Console.WriteLine($"Testing with config file {this.dbConfigFile}");
-        this.dbMappingDir = Path.Combine(currentDir, "mapping");
-        System.Console.WriteLine($"Testing with mapping dir {this.dbMappingDir}");
+        this.dbConfig = new DBConfig()
+        {
+            DBConfigFile = Path.Combine(currentDir, "questionnaire.hibernate.cfg.xml.xml"),
+            DBMappingDir = Path.Combine(currentDir, "mapping"),
+        };
+        System.Console.WriteLine($"Testing with config file {this.dbConfig.DBConfigFile}");
+        System.Console.WriteLine($"Testing with mapping dir {this.dbConfig.DBMappingDir}");   
     }
 
     [Test]
     public void Instantiate_ConfigsCorrect_DataStoreBuilt()
     {
-        var dataStore = new DataStoreBase(
-            this.dbConfigFile,
-            this.dbMappingDir);
+        var dataStore = new DataStoreBase(this.dbConfig);
 
         Assert.NotNull(dataStore);
     }
@@ -36,9 +41,7 @@ public class DataStoreBaseTests
     public void GetSchemaExport_ConfigsCorrect_SchemaExportCreated()
     {
         // Arrange
-        var dataStore = new DataStoreBase(
-            this.dbConfigFile,
-            this.dbMappingDir);
+        var dataStore = new DataStoreBase(this.dbConfig);
 
         // Act
         var schemaExport = dataStore.GetSchemaExport();
@@ -50,9 +53,7 @@ public class DataStoreBaseTests
     [Test]
     public void OpenSession_ConfigsCorrect_SessionOpenedAndConnected()
     {
-        var dataStore = new DataStoreBase(
-            this.dbConfigFile,
-            this.dbMappingDir);
+        var dataStore = new DataStoreBase(this.dbConfig);
 
         var session = dataStore.OpenSession();
 
@@ -64,9 +65,7 @@ public class DataStoreBaseTests
     [Test]
     public void OpenStatelessSession_ConfigsCorrect_StatelessSessionOpenedAndConnected()
     {
-        var dataStore = new DataStoreBase(
-            this.dbConfigFile,
-            this.dbMappingDir);
+        var dataStore = new DataStoreBase(this.dbConfig);
 
         var session = dataStore.OpenStatelessSession();
 
