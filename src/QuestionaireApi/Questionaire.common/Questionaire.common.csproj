@@ -17,6 +17,8 @@
     <None Remove="mapping\Questionnaire.hbm.xml" />
     <None Remove="mapping\Session.hbm.xml" />
     <None Remove="mapping\SessionQuestion.hbm.xml" />
+    <None Remove="tool\" />
+    <None Remove="tool\impl\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.10" />
@@ -25,6 +27,8 @@
     <Folder Include="model\" />
     <Folder Include="mapping\" />
     <Folder Include="datastore\" />
+    <Folder Include="tool\" />
+    <Folder Include="tool\impl\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mapping\Answer.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
