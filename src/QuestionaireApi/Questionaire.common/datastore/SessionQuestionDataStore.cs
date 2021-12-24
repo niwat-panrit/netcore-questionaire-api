@@ -2,7 +2,7 @@
 {
     public class SessionQuestionDataStore : DataStoreBase
     {
-		public SessionQuestionDataStore(IDataStoreConfig config)
+		public SessionQuestionDataStore(DataStoreConfig config)
             : base(config)
         {
 		}

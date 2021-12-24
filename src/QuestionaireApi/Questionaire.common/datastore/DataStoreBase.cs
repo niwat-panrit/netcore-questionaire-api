@@ -12,11 +12,10 @@ namespace Questionaire.common.datastore
         protected ISessionFactory sessionFactory;
 
         /// <summary>
-        /// Instantiate an object of <see cref="QuestionaireDataStore"/>
+        /// Instantiate an object of <see cref="DataStoreBase"/>
         /// </summary>
-        /// <param name="dbConfigFile">Path to NHibernate config file</param>
-        /// <param name="dbMappingDir">Path to NHibernate mapping directory</param>
-        public DataStoreBase(IDataStoreConfig config)
+        /// <param name="configuration for NHibernate."></param>
+        public DataStoreBase(DataStoreConfig config)
         {
             this.dbConfiguration = new Configuration();
             this.dbConfiguration.Configure(config.DBConfigFile);

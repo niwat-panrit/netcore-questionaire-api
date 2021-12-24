@@ -13,7 +13,7 @@ namespace Questionaire.common.datastore
 
         private ICache<ISession> sessionCache;
 
-        public AnswerDataStore(IDataStoreConfig config)
+        public AnswerDataStore(DataStoreConfig config)
             : base(config)
         {
             this.sessionCache = new DataStoreSessionCache(this);

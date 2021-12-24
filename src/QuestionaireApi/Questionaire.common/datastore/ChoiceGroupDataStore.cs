@@ -7,7 +7,7 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        public ChoiceGroupDataStore(IDataStoreConfig config)
+        public ChoiceGroupDataStore(DataStoreConfig config)
             : base(config)
         {
         }

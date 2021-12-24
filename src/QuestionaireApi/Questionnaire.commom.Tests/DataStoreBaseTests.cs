@@ -6,14 +6,14 @@ namespace Questionnaire.commom.Tests;
 
 public class DataStoreBaseTests
 {
-    class DBConfig : IDataStoreConfig
+    class DBConfig : DataStoreConfig
     {
         public string DBConfigFile { get; init; } = string.Empty;
 
         public string DBMappingDir { get; init; } = string.Empty;
     }
 
-    private IDataStoreConfig? dbConfig;
+    private DataStoreConfig? dbConfig;
 
     [SetUp]
     public void Setup()

@@ -7,7 +7,7 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        public SessionDataStore(IDataStoreConfig config)
+        public SessionDataStore(DataStoreConfig config)
             : base(config)
         {
         }

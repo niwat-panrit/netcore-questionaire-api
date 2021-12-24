@@ -7,7 +7,7 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        public AnswerExceptionDataStore(IDataStoreConfig config)
+        public AnswerExceptionDataStore(DataStoreConfig config)
             : base(config)
         {
         }

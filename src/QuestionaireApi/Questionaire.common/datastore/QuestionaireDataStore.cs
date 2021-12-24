@@ -11,7 +11,7 @@ namespace Questionaire.common.datastore
     {
         // TODO: Optimize parameters
 
-        public QuestionaireDataStore(IDataStoreConfig config)
+        public QuestionaireDataStore(DataStoreConfig config)
             : base(config)
         {
         }
