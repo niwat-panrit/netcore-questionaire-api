@@ -1,5 +1,4 @@
 ﻿using System;
-using Questionaire.common.datastore;
 
 namespace Questionaire.common.model
 {
@@ -19,29 +18,6 @@ namespace Questionaire.common.model
 
         public Session()
         {
-        }
-
-        public virtual Question GetFirstQuestion()
-        {
-            return SessionDataStore.Instance
-                .GetFirstQuestion(this.ID);
-        }
-
-        public virtual Question GetNextQuestion(Question question)
-        {
-            return SessionDataStore.Instance
-                .GetNextQuestion(this.ID, question.ID);
-        }
-
-        public virtual bool IsLastQuestion(Question question)
-        {
-            return GetNextQuestion(question) == null;
-        }
-
-        public virtual void Terminate()
-        {
-            SessionDataStore.Instance
-                .TerminateSession(this.ID);
         }
     }
 }

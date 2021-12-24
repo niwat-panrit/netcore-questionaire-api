@@ -16,24 +16,6 @@ namespace Questionaire.common.model
         {
         }
 
-        public virtual Questionnaire GetQuestionnaire()
-        {
-            return QuestionaireDataStore.Instance
-                .GetQuestionnaire(this.QuestionnaireID);
-        }
-
-        public virtual Session GetSession()
-        {
-            return SessionDataStore.Instance
-                .GetSession(this.SessionID);
-        }
-
-        public virtual Question GetQuestion()
-        {
-            return QuestionDataStore.Instance
-                .GetQuestion(this.QuestionID);
-        }
-
         #region Required by composite-id
 
         public override bool Equals(object obj)

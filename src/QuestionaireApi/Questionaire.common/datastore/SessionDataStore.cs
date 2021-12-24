@@ -90,5 +90,28 @@ namespace Questionaire.common.datastore
                     .Where(s => s.ID == sessionID)
                     .Take(1).SingleOrDefault();
         }
+
+        public virtual void Terminate()
+        {
+            SessionDataStore.Instance
+                .TerminateSession(this.ID);
+        }
+
+        public virtual Question GetFirstQuestion()
+        {
+            return SessionDataStore.Instance
+                .GetFirstQuestion(this.ID);
+        }
+
+        public virtual Question GetNextQuestion(Question question)
+        {
+            return SessionDataStore.Instance
+                .GetNextQuestion(this.ID, question.ID);
+        }
+
+        public virtual bool IsLastQuestion(Question question)
+        {
+            return GetNextQuestion(question) == null;
+        }
     }
 }
