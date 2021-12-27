@@ -19,9 +19,12 @@
     <None Remove="mapping\SessionQuestion.hbm.xml" />
     <None Remove="tool\" />
     <None Remove="tool\impl\" />
+    <None Remove="data\" />
+    <None Remove="Microsoft.Extensions.Caching.Memory" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.3.10" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
@@ -29,6 +32,7 @@
     <Folder Include="datastore\" />
     <Folder Include="tool\" />
     <Folder Include="tool\impl\" />
+    <Folder Include="data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mapping\Answer.hbm.xml" CopyToOutputDirectory="PreserveNewest" />
