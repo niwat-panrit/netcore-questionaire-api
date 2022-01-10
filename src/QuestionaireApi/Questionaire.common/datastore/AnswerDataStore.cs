@@ -79,7 +79,7 @@ namespace Questionaire.common.datastore
 
                 var answerID = dbSession.Save(answer);
                 isException = this.answerExceptionDataStore
-                    .IsExceptionalAnswer(question, answer, dbSession);
+                    .IsExceptionalAnswer(answer, dbSession);
 
                 return answerID != null;
             }
