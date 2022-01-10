@@ -38,7 +38,7 @@ namespace Questionaire.common.datastore
                 return cachedResult;
 
             // Cache isn't available, build new result
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
             using (var transaction = dbSession.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
             {
                 var questions = dbSession.QueryOver<Question>()
