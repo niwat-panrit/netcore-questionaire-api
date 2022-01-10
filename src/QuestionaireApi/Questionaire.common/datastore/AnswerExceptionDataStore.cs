@@ -5,33 +5,37 @@ namespace Questionaire.common.datastore
 {
     public class AnswerExceptionDataStore : DataStoreBase
     {
-        // TODO: Optimize parameters
-
         public AnswerExceptionDataStore(DataStoreConfig config)
             : base(config)
         {
         }
 
-        public bool IsExceptionalAnswer(Question question, Answer answer, ISession dbSession = null)
+        /// <summary>
+        /// Check whether a specified answer is one of the exception of specified question.
+        /// </summary>
+        /// <param name="answer">The answer to be checked.</param>
+        /// <param name="dbSession">DB session in case of need to run query on opened session.</param>
+        /// <returns></returns>
+        public bool IsExceptionalAnswer(Answer answer, ISession dbSession = null)
         {
-            bool IsException()
+            bool IsExceptionalAnswerInternal()
             {
                 var exception = dbSession.QueryOver<AnswerException>()
-                    .Where(e => e.QuestionnaireID == question.QuestionnaireID &&
-                                e.QuestionID == question.ID &&
+                    .Where(e => e.QuestionnaireID == answer.QuestionnaireID &&
+                                e.QuestionID == answer.QuestionID &&
                                 e.Value == answer.Value)
                     .Take(1).SingleOrDefault();
 
                 return exception != null;
             }
 
-            bool result;
             if (dbSession == null)
             {
                 try
                 {
                     dbSession = OpenSession();
-                    result = IsException();
+
+                    return IsExceptionalAnswerInternal();
                 }
                 finally
                 {
@@ -39,9 +43,7 @@ namespace Questionaire.common.datastore
                 }
             }
             else
-                result = IsException();
-
-            return result;
+                return IsExceptionalAnswerInternal();
         }
     }
 }
