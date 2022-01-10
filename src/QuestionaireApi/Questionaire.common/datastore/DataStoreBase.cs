@@ -29,8 +29,8 @@ namespace Questionaire.common.datastore
         public ISession OpenSession() =>
             this.sessionFactory.OpenSession();
 
-        public IStatelessSession OpenStatelessSession() =>
-            this.sessionFactory.OpenStatelessSession();
+        //public IStatelessSession OpenStatelessSession() =>
+        //    this.sessionFactory.OpenStatelessSession();
 
         public void Dispose()
         {
