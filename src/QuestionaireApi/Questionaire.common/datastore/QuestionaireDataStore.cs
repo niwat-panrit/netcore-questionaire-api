@@ -9,20 +9,27 @@ namespace Questionaire.common.datastore
 {
     public class QuestionaireDataStore : DataStoreBase
     {
-        // TODO: Optimize parameters
-
         public QuestionaireDataStore(DataStoreConfig config)
             : base(config)
         {
         }
 
-        public IEnumerable<Questionnaire> GetAllQuestionnaires()
+        /// <summary>
+        /// Get all questionnaires.
+        /// </summary>
+        /// <returns>List of questionnaires</returns>
+        public IList<Questionnaire> GetAllQuestionnaires()
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Questionnaire>()
                     .List();
         }
 
+        /// <summary>
+        /// Get questionnaire by identifier.
+        /// </summary>
+        /// <param name="questionnaireID">The questionnaire identifier</param>
+        /// <returns>The questionnaire</returns>
         public Questionnaire GetQuestionnaire(int questionnaireID)
         {
             using (var dbSession = OpenSession())
@@ -31,79 +38,109 @@ namespace Questionaire.common.datastore
                     .Take(1).SingleOrDefault();
         }
 
+        /// <summary>
+        /// Get previous question of specified question in the questionnaire.
+        /// </summary>
+        /// <param name="question">The question</param>
+        /// <returns>Previous question</returns>
         public Question GetPreviousQuestion(Question question)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
                     .Where(q => q.DisplayOrder < question.DisplayOrder)
                     .OrderBy(q => q.DisplayOrder).Desc
                     .Take(1).SingleOrDefault();
         }
 
+        /// <summary>
+        /// Get next question of specified question in the questionnaire.
+        /// </summary>
+        /// <param name="question">The question</param>
+        /// <returns>Next question</returns>
         public Question GetNextQuestion(Question question)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
                     .Where(q => q.DisplayOrder > question.DisplayOrder)
                     .OrderBy(q => q.DisplayOrder).Asc
                     .Take(1).SingleOrDefault();
         }
 
-        public int GetMinDisplayOrder(int questionnaireID)
+        /// <summary>
+        /// Get the lowest question's display order in the list of questions of specified questionnaire.
+        /// </summary>
+        /// <param name="questionnaire">The questionnaire</param>
+        /// <returns>Lowest display order</returns>
+        public int GetMinDisplayOrder(Questionnaire questionnaire)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
                     .Select(
                         Projections
                            .ProjectionList().Add(
                                 Projections.Min<Question>(q => q.DisplayOrder)))
-                    .Where(q => q.QuestionnaireID == questionnaireID)
+                    .Where(q => q.QuestionnaireID == questionnaire.ID)
                     .List<int>().First();
         }
 
-        public int GetMaxDisplayOrder(int questionnaireID)
+        /// <summary>
+        /// Get the most question's display order in the list of questions of specified questionnaire.
+        /// </summary>
+        /// <param name="questionaire">The questionnaire</param>
+        /// <returns>Most display order</returns>
+        public int GetMaxDisplayOrder(Questionnaire questionaire)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
                     .Select(
                         Projections
                            .ProjectionList().Add(
                                 Projections.Max<Question>(q => q.DisplayOrder)))
-                    .Where(q => q.QuestionnaireID == questionnaireID)
+                    .Where(q => q.QuestionnaireID == questionaire.ID)
                     .List<int>().First();
         }
 
-        public Questionnaire Create(Questionnaire questionnaire)
-        {
-            using (var dbSession = OpenStatelessSession())
-            {
-                questionnaire.CreatedAt =
-                    questionnaire.UpdatedAt =
-                        DateTime.Now;
-                questionnaire.ID = (int)dbSession.Insert(questionnaire);
-
-                return questionnaire;
-            }
-        }
-
-        public bool Update(Questionnaire qetionnaire)
+        /// <summary>
+        /// Save new questionnaire.
+        /// </summary>
+        /// <param name="questionnaire">The new questionnaire</param>
+        public void Create(Questionnaire questionnaire)
         {
             using (var dbSession = OpenSession())
             {
-                qetionnaire.UpdatedAt = DateTime.Now;
-                dbSession.Update(qetionnaire);
+                // TODO: Use DB's on create and update
+                questionnaire.CreatedAt =
+                    questionnaire.UpdatedAt =
+                        DateTime.Now;
 
-                return true;
+                dbSession.Save(questionnaire);
             }
         }
 
-        public bool Delete(Questionnaire qetionnaire)
+        /// <summary>
+        /// Update specified questionnaire
+        /// </summary>
+        /// <param name="qetionnaire">The questionnaire</param>
+        public void Update(Questionnaire qetionnaire)
+        {
+            using (var dbSession = OpenSession())
+            {
+                // TODO: Use DB's on update
+                qetionnaire.UpdatedAt = DateTime.Now;
+
+                dbSession.Update(qetionnaire);
+            }
+        }
+
+        /// <summary>
+        /// Delete specified questionnaire
+        /// </summary>
+        /// <param name="qetionnaire">The questionnaire</param>
+        public void Delete(Questionnaire qetionnaire)
         {
             using (var dbSession = OpenSession())
             {
                 dbSession.Delete(qetionnaire);
-
-                return true;
             }
         }
     }
