@@ -6,61 +6,79 @@ namespace Questionaire.common.datastore
 {
     public class QuestionDataStore : DataStoreBase
     {
-        // TODO: Optimize parameters
-
         public QuestionDataStore(DataStoreConfig config)
             : base(config)
         {
         }
 
-        public IEnumerable<Question> GetQuestions(int questionnaireID)
+        /// <summary>
+        /// Get list of questions of specified questionnaire.
+        /// </summary>
+        /// <param name="questionnaire">The questionnaire</param>
+        /// <returns>List of questionnaire's questions</returns>
+        public IList<Question> GetQuestions(Questionnaire questionnaire)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
-                    .Where(q => q.QuestionnaireID == questionnaireID)
+                    .Where(q => q.QuestionnaireID == questionnaire.ID)
                     .OrderBy(q => q.DisplayOrder).Asc
                     .List();
         }
 
+        /// <summary>
+        /// Get the question by identifier.
+        /// </summary>
+        /// <param name="questionID">The identifier</param>
+        /// <returns>The question</returns>
         public Question GetQuestion(int questionID)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Question>()
                     .Where(q => q.ID == questionID)
                     .Take(1).SingleOrDefault();
         }
 
-        public Question Create(Question question)
-        {
-            using (var dbSession = OpenStatelessSession())
-            {
-                question.CreatedAt =
-                    question.UpdatedAt =
-                        DateTime.Now;
-                question.ID = (int)dbSession.Insert(question);
-
-                return question;
-            }
-        }
-
-        public bool Update(Question question)
+        /// <summary>
+        /// Save new question.
+        /// </summary>
+        /// <param name="question">The question</param>
+        public void Create(Question question)
         {
             using (var dbSession = OpenSession())
             {
-                question.UpdatedAt = DateTime.Now;
-                dbSession.Update(question);
+                // TODO: Use DB's on create and update
+                question.CreatedAt =
+                    question.UpdatedAt =
+                        DateTime.Now;
 
-                return true;
+                dbSession.Save(question);
             }
         }
 
-        public bool Delete(Question question)
+        /// <summary>
+        /// Update specified question.
+        /// </summary>
+        /// <param name="question">The question</param>
+        public void Update(Question question)
+        {
+            using (var dbSession = OpenSession())
+            {
+                // TODO: Use DB's on update
+                question.UpdatedAt = DateTime.Now;
+
+                dbSession.Update(question);
+            }
+        }
+
+        /// <summary>
+        /// Delete specified question.
+        /// </summary>
+        /// <param name="question">The question</param>
+        public void Delete(Question question)
         {
             using (var dbSession = OpenSession())
             {
                 dbSession.Delete(question);
-
-                return true;
             }
         }
     }
