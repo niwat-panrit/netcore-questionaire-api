@@ -5,113 +5,78 @@ namespace Questionaire.common.datastore
 {
     public class SessionDataStore : DataStoreBase
     {
-        // TODO: Optimize parameters
-
         public SessionDataStore(DataStoreConfig config)
             : base(config)
         {
         }
 
-        public Session OpenQuestionnaireSession(int questionnaireID, string text = null)
+        /// <summary>
+        /// Open new questionnaire session.
+        /// </summary>
+        /// <param name="questionnaire">The questionnaire</param>
+        /// <param name="text">Remark for opening session</param>
+        /// <returns>The new questionnaire session</returns>
+        public Session OpenQuestionnaireSession(Questionnaire questionnaire, string text = null)
         {
             Session qnSession;
 
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
             {
-                var creationTime = DateTime.Now;
+                // TODO: Use DB's on create and update
+                var now = DateTime.Now;
                 qnSession = new Session()
                 {
-                    QuestionnaireID = questionnaireID,
+                    QuestionnaireID = questionnaire.ID,
                     IsCompleted = false,
                     Text = text,
-                    CreatedAt = creationTime,
-                    UpdatedAt = creationTime,
+                    CreatedAt = now,
+                    UpdatedAt = now,
                 };
 
-                // TODO: Prepare list of question for this session
+                dbSession.Save(qnSession);
 
-                qnSession.ID = (int)dbSession.Insert(qnSession);
+                // TODO: Prepare list of question for this session
+                //qnSession.PrepareQuestionList();
             }
 
             return qnSession;
         }
 
-        public void TerminateSession(int sessionID)
+        /// <summary>
+        /// Terminate opened session.
+        /// </summary>
+        /// <param name="session"></param>
+        public void TerminateSession(Session session)
         {
             using (var dbSession = OpenSession())
             {
                 var qnSession = dbSession.QueryOver<Session>()
-                    .Where(s => s.ID == sessionID)
+                    .Where(s => s.ID == session.ID)
                     .Take(1).SingleOrDefault();
 
                 if (qnSession == null)
                     return;
 
                 qnSession.IsCompleted = true;
+
+                // TODO: Use DB's on update
                 qnSession.UpdatedAt = DateTime.Now;
+
                 dbSession.Update(qnSession);
             }
         }
 
-        public Question GetFirstQuestion(int sessionID)
-        {
-            using (var dbSession = OpenStatelessSession())
-                return dbSession.QueryOver<SessionQuestion>()
-                    .Where(sq => sq.SessionID == sessionID)
-                    .OrderBy(sq => sq.Sequence).Asc
-                    .Take(1).SingleOrDefault()
-                    ?.GetQuestion();
-        }
-
-        public Question GetNextQuestion(int sessionID, int questionID)
-        {
-            using (var dbSession = OpenStatelessSession())
-            {
-                var needle = dbSession.QueryOver<SessionQuestion>()
-                    .Where(sq => sq.SessionID == sessionID &&
-                                 sq.QuestionID == questionID)
-                    .Take(1).SingleOrDefault();
-
-                if (needle == null)
-                    return null;
-
-                return dbSession.QueryOver<SessionQuestion>()
-                    .Where(sq => sq.SessionID == sessionID &&
-                                 sq.Sequence > needle.Sequence)
-                    .Take(1).SingleOrDefault()
-                    ?.GetQuestion();
-            }
-        }
-
+        /// <summary>
+        /// Get the session by identifier.
+        /// </summary>
+        /// <param name="sessionID">The identifier</param>
+        /// <returns>The session</returns>
         public Session GetSession(int sessionID)
         {
-            using (var dbSession = OpenStatelessSession())
+            using (var dbSession = OpenSession())
                 return dbSession.QueryOver<Session>()
                     .Where(s => s.ID == sessionID)
                     .Take(1).SingleOrDefault();
-        }
-
-        public virtual void Terminate()
-        {
-            SessionDataStore.Instance
-                .TerminateSession(this.ID);
-        }
-
-        public virtual Question GetFirstQuestion()
-        {
-            return SessionDataStore.Instance
-                .GetFirstQuestion(this.ID);
-        }
-
-        public virtual Question GetNextQuestion(Question question)
-        {
-            return SessionDataStore.Instance
-                .GetNextQuestion(this.ID, question.ID);
-        }
-
-        public virtual bool IsLastQuestion(Question question)
-        {
-            return GetNextQuestion(question) == null;
         }
     }
 }
