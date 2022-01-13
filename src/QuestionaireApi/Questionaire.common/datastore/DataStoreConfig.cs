@@ -1,6 +1,6 @@
 ﻿namespace Questionaire.common.datastore
 {
-    public record DataStoreConfig
+    public class DataStoreConfig
     {
         /// <summary>
         /// Path to NHibernate configuration file
